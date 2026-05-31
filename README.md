@@ -66,7 +66,7 @@ source /etc/profile
 export PS1="(chroot) ${PS1}"
 ```
 
-- move into repo, copy configuration files, emerge packages
+- move into repo, copy configuration files, configure portage to use git sync, emerge packages
 ```
 cd k8s-cluster-v2
 rm -r /etc/portage/{make.conf,package.use,package.accept_keywords} /etc/portage/binrepos.conf/gentoobinhost.conf
@@ -75,8 +75,14 @@ cp etc/gentoobinhost.conf /etc/portage/binrepos.conf/
 chmod 644 /etc/portage/{make.conf,package.use,package.accept_keywords}
 chmod 644 /etc/portage/binrepos.conf/gentoobinhost.conf
 
-
 emerge-webrsync
+emerge -q eselect-repository
+eselect repository remove -f gentoo
+eselect repository add gentoo git https://anongit.gentoo.org/git/repo/gentoo
+rm -rf /etc/portage/gnupg
+getuto
+emerge --sync
+
 emerge -quDN @world
 emerge -q app-admin/eclean-kernel \
 app-crypt/sbctl \
