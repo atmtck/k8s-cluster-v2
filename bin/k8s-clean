@@ -1,0 +1,8 @@
+#!/bin/sh
+
+kubectl exec -n kube-system "etcd-$(hostname)" -- etcdctl \
+  --cacert /etc/kubernetes/pki/etcd/ca.crt \
+  --cert /etc/kubernetes/pki/etcd/server.crt \
+  --key /etc/kubernetes/pki/etcd/server.key defrag
+
+crictl rmi --prune
