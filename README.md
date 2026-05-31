@@ -66,12 +66,15 @@ source /etc/profile
 export PS1="(chroot) ${PS1}"
 ```
 
-- movee into repo, copy configuration files, emerge packages
+- move into repo, copy configuration files, emerge packages
 ```
 cd k8s-cluster-v2
-rm -r /etc/portage/{make.conf,package.use,package.accept_keywords}
+rm -r /etc/portage/{make.conf,package.use,package.accept_keywords} /etc/portage/binrepos.conf/gentoobinhost.conf
 cp etc/{make.conf,package.use,package.accept_keywords} /etc/portage/
+cp etc/gentoobinhost.conf /etc/portage/binrepos.conf/
 chmod 644 /etc/portage/{make.conf,package.use,package.accept_keywords}
+chmod 644 /etc/portage/binrepos.conf/gentoobinhost.conf
+
 
 emerge-webrsync
 emerge -quDN @world
