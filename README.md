@@ -411,7 +411,7 @@ source /root/.bash_profile
 - generate kubeadm configs:
 ```
 cd k8s
-sh kubeadm-gen.sh
+sh kubeadm-config-gen.sh
 ```
 
 - copy kubeadm configs on each host
@@ -419,3 +419,19 @@ sh kubeadm-gen.sh
 - run `kubeadm init --upload-certs --config "kubeadm-$( hostnamectl hostname )-config.yaml"` on the first node
 
 - join the other nodes by running `kubeadm join --config "kubeadm-$( hostnamectl hostname )-config.yaml"`
+
+### calico installation
+
+- generate calico deployment yaml:
+```
+cd k8s
+sh calico-config-gen.sh
+```
+
+- install tigera operator:
+```
+kubectl create -f https://raw.githubusercontent.com/projectcalico/calico/v3.32.0/manifests/v1_crd_projectcalico_org.yaml
+kubectl create -f https://raw.githubusercontent.com/projectcalico/calico/v3.32.0/manifests/tigera-operator.yaml`
+```
+
+- run `kubectl create -f calico-deployment.yaml`
